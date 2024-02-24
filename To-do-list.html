@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TO-DO List</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    h1 {
+        margin: 0;
+        font-size: 24px;
+        color: #333;
+    }
+    #task-input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+    #add-task-btn {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+    #task-list {
+        list-style-type: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+    .task-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+    }
+    .task-item input[type="checkbox"] {
+        margin-right: 10px;
+    }
+    .task-item .task-text {
+        flex: 1;
+        color: #333;
+    }
+    .task-item .date {
+        font-size: 14px;
+        color: #999;
+    }
+    .delete-btn {
+        background: none;
+        border: none;
+        color: #f44336;
+        cursor: pointer;
+        font-size: 16px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>My TO-DO List</h1>
+        <div class="date">
+            <i class="far fa-calendar-alt"></i>
+            <span id="current-date"></span>
+        </div>
+    </div>
+    <input type="text" id="task-input" placeholder="Enter your task here...">
+    <button id="add-task-btn">Add Task</button>
+    <ul id="task-list"></ul>
+</div>
+
+<script>
+    const taskInput = document.getElementById('task-input');
+    const addTaskBtn = document.getElementById('add-task-btn');
+    const taskList = document.getElementById('task-list');
+    const currentDate = document.getElementById('current-date');
+
+    // Display current date
+    const today = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    currentDate.textContent = today.toLocaleDateString('en-US', options);
+
+    addTaskBtn.addEventListener('click', function() {
+        const taskText = taskInput.value.trim();
+        if (taskText !== '') {
+            const taskItem = document.createElement('li');
+            taskItem.classList.add('task-item');
+            taskItem.innerHTML = `
+                <input type="checkbox">
+                <span class="task-text">${taskText}</span>
+                <span class="date">${today.toLocaleDateString('en-US')}</span>
+                <button class="delete-btn"><i class="far fa-trash-alt"></i></button>
+            `;
+            taskList.appendChild(taskItem);
+            taskInput.value = '';
+        }
+    });
+
+    taskList.addEventListener('click', function(event) {
+        if (event.target.classList.contains('delete-btn')) {
+            event.target.parentNode.remove();
+        }
+    });
+</script>
+
+</body>
+</html>
